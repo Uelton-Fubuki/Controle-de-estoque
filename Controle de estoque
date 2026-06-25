@@ -1,0 +1,97 @@
+# ==========================================================
+# SISTEMA DE CONTROLE DE ESTOQUE
+# Autor: Uelton de Jesus dos Santos
+# Disciplina: Engenharia de Software
+# ==========================================================
+
+# Dicionário para armazenar os produtos e suas quantidades
+estoque = {}
+
+
+# Função para registrar entrada de produtos
+def entrada_produto():
+    produto = input("\nDigite o nome do produto: ")
+    quantidade = int(input("Digite a quantidade recebida: "))
+    data = input("Digite a data da entrada (dd/mm/aaaa): ")
+
+    # Verifica se o produto já existe no estoque
+    if produto in estoque:
+        estoque[produto] += quantidade
+    else:
+        estoque[produto] = quantidade
+
+    print("\nEntrada registrada com sucesso!")
+    print(f"Produto: {produto}")
+    print(f"Quantidade recebida: {quantidade}")
+    print(f"Data: {data}")
+    print(f"Estoque atual: {estoque[produto]} unidades")
+
+
+# Função para registrar saída de produtos
+def saida_produto():
+    produto = input("\nDigite o nome do produto: ")
+    quantidade = int(input("Digite a quantidade retirada: "))
+    responsavel = input("Digite o nome do responsável: ")
+    data = input("Digite a data da saída (dd/mm/aaaa): ")
+
+    # Verifica se o produto existe
+    if produto not in estoque:
+        print("\nProduto não encontrado no estoque.")
+        return
+
+        # Valida quantidade disponível
+    if quantidade > estoque[produto]:
+        print("\nErro: quantidade insuficiente em estoque.")
+        print(f"Estoque disponível: {estoque[produto]} unidades")
+        return
+
+    estoque[produto] -= quantidade
+
+    print("\nSaída registrada com sucesso!")
+    print(f"Produto: {produto}")
+    print(f"Quantidade retirada: {quantidade}")
+    print(f"Responsável: {responsavel}")
+    print(f"Data: {data}")
+    print(f"Estoque atual: {estoque[produto]} unidades")
+
+
+# Função para exibir estoque
+def mostrar_estoque():
+    print("\n========== ESTOQUE ATUAL ==========")
+
+    if not estoque:
+        print("Nenhum produto cadastrado.")
+        return
+
+    for produto, quantidade in estoque.items():
+        print(f"{produto}: {quantidade} unidades")
+
+        # Menu principal
+
+
+while True:
+    print("\n===================================")
+    print(" SISTEMA DE CONTROLE DE ESTOQUE ")
+    print("===================================")
+    print("1 - Entrada de Produto")
+    print("2 - Saída de Produto")
+    print("3 - Mostrar Estoque")
+    print("4 - Sair")
+
+    opcao = input("Escolha uma opção: ")
+
+    if opcao == "1":
+        entrada_produto()
+
+    elif opcao == "2":
+        saida_produto()
+
+    elif opcao == "3":
+        mostrar_estoque()
+
+    elif opcao == "4":
+        print("\nSistema encerrado.")
+        break
+
+    else:
+        print("\nOpção inválida. Tente novamente.")
